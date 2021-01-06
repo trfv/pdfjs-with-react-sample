@@ -4,7 +4,7 @@ import * as pdfjs from 'pdfjs-dist';
 const workerSrc = './pdf.worker.min.js';
 const pdfSrc = './sample.pdf';
 
-const RESOLUTION = 3;
+const RESOLUTION = 2;
 
 export const ScrollPdfViewer = () => {
   const [pdf, setPdf] = useState<pdfjs.PDFDocumentProxy | null>(null);
