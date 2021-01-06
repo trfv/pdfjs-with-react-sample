@@ -6,6 +6,23 @@ const pdfSrc = './sample.pdf';
 
 const RESOLUTION = 2;
 
+export const App = () => {
+  const [tab, setTab] = useState<"scroll" | "paging">("scroll");
+  return (
+    <>
+      <div>
+        <button disabled={tab === "scroll"} onClick={() => setTab("scroll")}>Scroll</button>
+        <button disabled={tab === "paging"} onClick={() => setTab("paging")}>Paging</button>
+      </div>
+      <br />
+      <div>
+        {tab === "scroll" && <ScrollPdfViewer />}
+        {tab === "paging" && <PagingPdfViewer />}
+      </div>
+    </>
+  )
+}
+
 export const ScrollPdfViewer = () => {
   const [pdf, setPdf] = useState<pdfjs.PDFDocumentProxy | null>(null);
 
@@ -112,7 +129,7 @@ export const PagingPdfViewer = () => {
       <button onClick={handleClick(pageNum - 1)}>{"<"}</button>
       <button onClick={handleClick(pageNum + 1)}>{">"}</button>
       <br />
-      <canvas id="pdf-canvas" style={{ width: "100vw" }}/>
+      <canvas id="pdf-canvas" style={{ width: "100%", border: "solid 1px black" }} />
     </div>
   );
 };

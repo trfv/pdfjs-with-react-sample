@@ -1,5 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ScrollPdfViewer } from './PdfViewer';
+import { App } from './App';
 
-ReactDOM.render(<ScrollPdfViewer/>, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
