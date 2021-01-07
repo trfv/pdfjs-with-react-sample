@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as pdfjs from 'pdfjs-dist';
+import Modal from 'react-modal';
+
+Modal.setAppElement("#root");
 
 const workerSrc = './pdf.worker.min.js';
 const pdfSrc = './c4611_sample_explain.pdf';
@@ -7,17 +10,19 @@ const pdfSrc = './c4611_sample_explain.pdf';
 const RESOLUTION = 2;
 
 export const App = () => {
-  const [tab, setTab] = useState<"scroll" | "paging">("scroll");
+  const [tab, setTab] = useState<"scroll" | "paging" | "modal">("scroll");
   return (
     <>
       <div>
         <button disabled={tab === "scroll"} onClick={() => setTab("scroll")}>Scroll</button>
         <button disabled={tab === "paging"} onClick={() => setTab("paging")}>Paging</button>
+        <button disabled={tab === "modal"} onClick={() => setTab("modal")}>Modal</button>
       </div>
       <br />
       <div>
         {tab === "scroll" && <ScrollPdfViewer />}
         {tab === "paging" && <PagingPdfViewer />}
+        {tab === "modal" && <ModalPdfViewer />}
       </div>
     </>
   )
@@ -73,7 +78,7 @@ export const ScrollPdfViewer = () => {
   }
 
   return (
-    <div className="pdf-canvas-wrapper" style={{ width: "90vw", height: "90vh", overflow: "scroll" }}>
+    <div className="pdf-canvas-wrapper" style={{ width: "100%", height: "80vh", overflow: "scroll" }}>
       {[...new Array(pdf.numPages)].map((_, i) => <canvas id={`pdf-canvas-${i + 1}`} style={{ width: "100%", border: "solid 1px black", boxSizing: "border-box" }} />)}
     </div>
   );
@@ -129,9 +134,24 @@ export const PagingPdfViewer = () => {
       <button onClick={handleClick(pageNum - 1)}>{"<"}</button>
       <button onClick={handleClick(pageNum + 1)}>{">"}</button>
       <br />
-      <div className="pdf-canvas-wrapper" style={{ width: "90vw", height: "85vh", overflow: "scroll" }}>
+      <div className="pdf-canvas-wrapper" style={{ width: "100%", height: "80vh", overflow: "scroll" }}>
         <canvas id="pdf-canvas" style={{ width: "100%", border: "solid 1px black", boxSizing: "border-box" }} />
       </div>
     </div>
   );
 };
+
+const ModalPdfViewer = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  return (
+    <div>
+      <button onClick={() => setIsOpen(true)}>Open Modal</button>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+      >
+        <ScrollPdfViewer />
+      </Modal>
+    </div>
+  );
+}
