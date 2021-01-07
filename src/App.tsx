@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as pdfjs from 'pdfjs-dist';
 
 const workerSrc = './pdf.worker.min.js';
-const pdfSrc = './sample.pdf';
+const pdfSrc = './c4611_sample_explain.pdf';
 
 const RESOLUTION = 2;
 
@@ -73,8 +73,8 @@ export const ScrollPdfViewer = () => {
   }
 
   return (
-    <div className="pdf-canvas-wrapper">
-      {[...new Array(pdf.numPages)].map((_, i) => <canvas id={`pdf-canvas-${i + 1}`} style={{ width: "100%", border: "solid 1px black" }} />)}
+    <div className="pdf-canvas-wrapper" style={{ width: "90vw", height: "90vh", overflow: "scroll" }}>
+      {[...new Array(pdf.numPages)].map((_, i) => <canvas id={`pdf-canvas-${i + 1}`} style={{ width: "100%", border: "solid 1px black", boxSizing: "border-box" }} />)}
     </div>
   );
 };
@@ -129,7 +129,9 @@ export const PagingPdfViewer = () => {
       <button onClick={handleClick(pageNum - 1)}>{"<"}</button>
       <button onClick={handleClick(pageNum + 1)}>{">"}</button>
       <br />
-      <canvas id="pdf-canvas" style={{ width: "100%", border: "solid 1px black" }} />
+      <div className="pdf-canvas-wrapper" style={{ width: "90vw", height: "85vh", overflow: "scroll" }}>
+        <canvas id="pdf-canvas" style={{ width: "100%", border: "solid 1px black", boxSizing: "border-box" }} />
+      </div>
     </div>
   );
 };
